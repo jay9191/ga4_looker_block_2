@@ -1,6 +1,6 @@
 ---
 - dashboard: arima
-  title: "[GA4] ARIMA Model"
+  title: "[GA4.2] ARIMA Model"
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''

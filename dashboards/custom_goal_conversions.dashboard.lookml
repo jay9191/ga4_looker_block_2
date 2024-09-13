@@ -1,5 +1,5 @@
 - dashboard: custom_goal_conversions
-  title: "[GA4] Custom Goal Conversions"
+  title: "[GA4.2] Custom Goal Conversions"
   layout: newspaper
   preferred_viewer: dashboards-next
   elements:

@@ -1,5 +1,5 @@
 - dashboard: propensity_model
-  title: "[GA4] Propensity Model"
+  title: "[GA4.2] Propensity Model"
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
