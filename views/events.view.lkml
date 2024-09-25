@@ -54,7 +54,7 @@ view: events {
 
   dimension_group: event_time {
     type: time
-    timeframes: [date,day_of_month,day_of_week,day_of_week_index,day_of_year,month,month_name,month_num,fiscal_quarter,fiscal_quarter_of_year,year,time,hour,hour_of_day,minute,second]
+    timeframes: [date,day_of_month,day_of_week,day_of_week_index,day_of_year,week,week_of_year,month,month_name,month_num,quarter,quarter_of_year,year,time,hour,hour_of_day,minute,second]
     label: "Event"
     sql: TIMESTAMP_MICROS(${TABLE}.event_timestamp) ;;
     description: "Event Date/Time from Event Timestamp."

@@ -47,6 +47,7 @@ view: session_list_with_event_history {
             , events.geo
             , events.app_info
             , events.traffic_source
+            , events.collected_traffic_source
             , events.stream_id
             , events.platform
             , events.event_dimensions
