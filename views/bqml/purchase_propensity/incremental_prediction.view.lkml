@@ -6,7 +6,7 @@ include: "/views/*.view.lkml"
 explore: pred_history {}
 view: pred_history {
   derived_table: {
-    sql_trigger_value:CASE WHEN "@{BQML_PARAMETER}"='Yes' AND ${future_purchase_model.SQL_TABLE_NAME} THEN TRUE ELSE FALSE END;;
+    #sql_trigger_value:CASE WHEN "@{BQML_PARAMETER}"='Yes' AND ${future_purchase_model.SQL_TABLE_NAME} THEN TRUE ELSE FALSE END;;
     explore_source: sessions {
       column: pred_probability_bucket { field: future_purchase_prediction.pred_probability_bucket }
       column: total_purchase_revenue_usd { field: events.total_purchase_revenue_usd }
@@ -57,7 +57,7 @@ explore: incremental_prediction {hidden:yes}
 view: incremental_prediction {
   derived_table: {
     #datagroup_trigger: bqml_datagroup
-    sql_trigger_value:CASE WHEN "@{BQML_PARAMETER}"='Yes' AND ${pred_history.SQL_TABLE_NAME} THEN TRUE ELSE FALSE END;;
+    #sql_trigger_value:CASE WHEN "@{BQML_PARAMETER}"='Yes' AND ${pred_history.SQL_TABLE_NAME} THEN TRUE ELSE FALSE END;;
     create_process: {
       sql_step:
         CREATE TABLE IF NOT EXISTS ${SQL_TABLE_NAME} (
