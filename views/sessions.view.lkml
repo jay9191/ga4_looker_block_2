@@ -567,6 +567,180 @@ extends: [event_funnel, page_funnel]
     sql: ${user_pseudo_id} ;;
     value_format_name: formatted_number
   }
+
+
+
+
+
+  ### eComm Funnel
+  measure: plp_users_url {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "PLP Users by URL"
+    description: "Distinct/Unique count of Users who viewed a Collections page"
+    type: count_distinct
+    sql: (SELECT DISTINCT  sessions.user_pseudo_id
+          FROM sessions.event_data ed
+          WHERE ed.event_name = 'page_view' AND
+            (SELECT value.string_value FROM UNNEST(event_params) WHERE key = "page_location") like '%/collections/%')  ;;
+    value_format_name: decimal_0
+  }
+
+
+  measure: pdp_users {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "PDP Users"
+    description: "Distinct/Unique count of Users who viewed a PDP"
+    type: count_distinct
+    sql: (SELECT DISTINCT ${user_pseudo_id} from sessions.event_data ed where ed.event_name = 'view_item') ;;
+    value_format_name: decimal_0
+  }
+
+
+  measure: pdp_users_url {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "PDP Users by URL"
+    description: "Distinct/Unique count of Users who viewed a PDP"
+    type: count_distinct
+    sql: (SELECT DISTINCT  sessions.user_pseudo_id
+          FROM sessions.event_data ed
+          WHERE ed.event_name = 'page_view' AND
+            (SELECT value.string_value FROM UNNEST(event_params) WHERE key = "page_location") like '%/product/%')  ;;
+    value_format_name: decimal_0
+  }
+
+  measure: add_to_cart_users {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "Add to Cart Users"
+    description: "Distinct/Unique count of Users who added an item to cart"
+    type: count_distinct
+    sql: (SELECT DISTINCT ${user_pseudo_id} from sessions.event_data ed where ed.event_name = 'add_to_cart') ;;
+    value_format_name: decimal_0
+  }
+
+  measure: begin_checkout_users {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "Begin Checkout Users"
+    description: "Distinct/Unique count of Users who added an item to cart"
+    type: count_distinct
+    sql: (SELECT DISTINCT ${user_pseudo_id} from sessions.event_data ed where ed.event_name = 'begin_checkout') ;;
+    value_format_name: decimal_0
+  }
+
+  measure: add_shipping_info_users {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "Add Shipping Info Users"
+    description: "Distinct/Unique count of Users who added shipping info and got to the last step before checkout"
+    type: count_distinct
+    sql: (SELECT DISTINCT ${user_pseudo_id} from sessions.event_data ed where ed.event_name = 'add_shipping_info') ;;
+    value_format_name: decimal_0
+  }
+
+  measure: purchase_users {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "Purchase Users"
+    description: "Distinct/Unique count of Users who completed a purchase"
+    type: count_distinct
+    sql: (SELECT DISTINCT ${user_pseudo_id} from sessions.event_data ed where ed.event_name = 'purchase') ;;
+    value_format_name: decimal_0
+  }
+
+
+
+
+
+### eComm Conversions
+
+  measure: purchase_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "Purchase Rate %"
+    description: "Unique purchasers divided by unique PDP viewers"
+    type: number
+    sql: ${purchase_users}/nullif(${pdp_users},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: total_site_conversion_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "Total Site Conversion Rate %"
+    description: "Unique purchasers divided by unique site visitors"
+    type: number
+    sql: ${purchase_users}/nullif(${total_users},0) ;;
+    value_format_name: percent_2
+  }
+
+
+  measure: pdp_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "PDP / All Users Rate %"
+    description: "Unique PDP viewers divided by unique site visitors"
+    type: number
+    sql: ${pdp_users}/nullif(${total_users},0) ;;
+    value_format_name: percent_2
+  }
+
+
+  measure: pdp_rate_2 {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "PDP URL / All Users Rate %"
+    description: "Unique PDP viewers divided by unique site visitors"
+    type: number
+    sql: ${pdp_users_url}/nullif(${total_users},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: add_to_cart_pdp_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "Add to Cart / PDP Rate %"
+    description: "Unique PDP viewers divided by unique site visitors"
+    type: number
+    sql: ${add_to_cart_users}/nullif(${pdp_users},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: begin_checkout_atc_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "Begin Checkout / Add to Cart Rate %"
+    description: "Unique PDP viewers divided by unique site visitors"
+    type: number
+    sql: ${begin_checkout_users}/nullif(${add_to_cart_users},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: add_shipping_begin_checkout_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "Add Shipping / Begin Checkout Rate %"
+    description: "Unique PDP viewers divided by unique site visitors"
+    type: number
+    sql: ${add_shipping_info_users}/nullif(${begin_checkout_users},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: purchase_add_shipping_rate {
+    view_label: "eComm Funnel"
+    group_label: "Conversions"
+    label: "Purchase / Add Shipping Rate %"
+    description: "Unique PDP viewers divided by unique site visitors"
+    type: number
+    sql: ${purchase_users}/nullif(${add_shipping_info_users},0) ;;
+    value_format_name: percent_2
+  }
+
+
+
   #measure: total_event_count {
   #  type: sum
   #  description: "Total times an event occured on a specific date"
