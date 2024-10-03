@@ -651,6 +651,47 @@ extends: [event_funnel, page_funnel]
     value_format_name: decimal_0
   }
 
+    measure: purchase_users_28_day_sum {
+      view_label: "eComm Funnel"
+      group_label: "User"
+      label: "Purchase Users - Last 28 Days"
+      description: "Rolling sum of Purchase Users over the last 28 days"
+      type: count_distinct
+      sql:
+          (SELECT DISTINCT ${sessions.user_pseudo_id}
+           FROM sessions
+           JOIN UNNEST(sessions.event_data) AS ed
+           WHERE ed.event_name = 'purchase'
+             AND ${sessions.session_date} BETWEEN DATE_SUB(${sessions.session_date}, INTERVAL 28 DAY) AND ${sessions.session_date}) ;;
+      value_format_name: decimal_0
+    }
+
+
+
+
+
+  measure: purchase_users_28_day_sum_TEST {
+    view_label: "eComm Funnel"
+    group_label: "User"
+    label: "TESTPurchase Users - Last 28 Days"
+    description: "Rolling sum of Purchase Users over the last 28 days"
+    type: number
+    sql:
+    --(WITH purchase_data AS (
+      SELECT
+        --${sessions.session_date} AS session_date,
+        COUNT(DISTINCT ${user_pseudo_id}) AS purchase_user_count
+      FROM ${TABLE}
+      WHERE ${sessions.event_data}.event_name = 'purchase'
+      GROUP BY ${sessions.session_date}.date
+   -- )
+  --  SELECT SUM(purchase_user_count)
+  --  FROM purchase_data
+  --  WHERE session_date BETWEEN DATE_SUB(${sessions.session_date}, INTERVAL 28 DAY) AND ${sessions.session_date})
+  ;;
+    value_format_name: decimal_0
+  }
+
 
 
 
