@@ -14,10 +14,10 @@ view: session_tags{
     datagroup_trigger: ga4_main_datagroup
     #sql_trigger_value: ${session_list_with_event_history.SQL_TABLE_NAME} ;;
     sql:SELECT DISTINCT sl.sl_key, sl.session_date
-  , CASE WHEN key = 'medium' THEN value.string_value END AS medium
-  , CASE WHEN key = 'source' THEN value.string_value END AS source
-  , CASE WHEN key = 'campaign' THEN value.string_value END AS campaign
-  , CASE WHEN key = 'page_referrer' THEN value.string_value END AS page_referrer
+  , MAX(CASE WHEN key = 'medium' THEN value.string_value END) AS medium
+  , MAX(CASE WHEN key = 'source' THEN value.string_value END) AS source
+  , MAX(CASE WHEN key = 'campaign' THEN value.string_value END) AS campaign
+  , MAX(CASE WHEN key = 'page_referrer' THEN value.string_value END) AS page_referrer
 FROM (
   SELECT sl_key, sl3.session_date, key, value,event_timestamp
   FROM ${session_list_with_event_history.SQL_TABLE_NAME} sl3
@@ -32,7 +32,8 @@ JOIN (
   GROUP BY sl2.sl_key, sl2.session_date
 ) AS min_events ON sl.sl_key = min_events.sl_key AND sl.session_date = min_events.session_date
 WHERE sl.event_timestamp = min_events.min_event_timestamp
-and {% incrementcondition %} sl.session_date {% endincrementcondition %};;
+and {% incrementcondition %} sl.session_date {% endincrementcondition %}
+GROUP BY sl.sl_key, sl.session_date;;
   }
   dimension: session_date {
     type: date
