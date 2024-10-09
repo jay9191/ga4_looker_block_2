@@ -40,6 +40,7 @@ view: session_event_packing {
                           geo,
                           app_info,
                           traffic_source,
+                          collected_traffic_source,
                           stream_id,
                           platform,
                           event_dimensions,

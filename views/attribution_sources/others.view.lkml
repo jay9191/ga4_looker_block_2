@@ -2,7 +2,8 @@ view: others {
   derived_table: {
     datagroup_trigger:attribution_channel
     sql: select  '(direct)' as medium, 'Direct'  as source UNION ALL
-select '(direct)(none)' as medium, 'Direct' as source UNION ALL
+      select '(direct)(none)' as medium, 'Direct' as source UNION ALL
+      select  'SnackNation' as medium, 'Referral' as source UNION ALL
       select  'referral' as medium, 'Referral' as source UNION ALL
       select  'audio'  as medium, 'Audio' as source UNION ALL
       select  'sms'  as medium, 'SMS'  as source UNION ALL

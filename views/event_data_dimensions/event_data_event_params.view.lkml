@@ -152,7 +152,10 @@ view: event_data_event_params {
     group_label: "Event: Parameters"
     label: "Source"
     type: string
-    sql: (SELECT value.string_value FROM UNNEST(event_params) WHERE key = "source") ;;
+    sql: (SELECT CASE
+            WHEN (SELECT value.string_value FROM UNNEST(event_params) WHERE key = "campaign") = 'Snack Nation' THEN 'snack_nation'
+            ELSE (SELECT value.string_value FROM UNNEST(event_params) WHERE key = "source")
+          END) ;;
     full_suggestions: yes
   }
 

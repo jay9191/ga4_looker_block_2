@@ -470,7 +470,13 @@ view: events {
   dimension: traffic_source__medium {
     view_label: "Acquisition"
     type: string
-    sql: ${TABLE}.traffic_source.medium ;;
+    sql:
+    (SELECT
+        CASE
+          WHEN ${TABLE}.traffic_source.name = 'Snack Nation' THEN 'referral'
+          ELSE ${TABLE}.traffic_source.medium
+        END)
+         ;;
     full_suggestions: yes
     group_label: "User Traffic Source"
     group_item_label: "Medium"
@@ -490,13 +496,55 @@ view: events {
   dimension: traffic_source__source {
     view_label: "Acquisition"
     type: string
-    sql: ${TABLE}.traffic_source.source ;;
+    sql:
+      (SELECT
+        CASE
+          WHEN ${TABLE}.traffic_source.name = 'Snack Nation' THEN 'snack_nation'
+          ELSE ${TABLE}.traffic_source.source
+        END) ;;
     full_suggestions: yes
     group_label: "User Traffic Source"
     group_item_label: "Source"
     description: "The source of the traffic source for the user's original first visit (Saved up to 1 Year by Default)."
   }
 
+
+  ## Collected Traffic Source Fields
+  dimension: collected_traffic_source__medium {
+    view_label: "Acquisition"
+    type: string
+    sql: ${TABLE}.collected_traffic_source.manual_medium ;;
+    full_suggestions: yes
+    group_label: "Collected Session Traffic Source"
+    group_item_label: "Medium"
+  }
+
+  dimension: collected_traffic_source__source {
+    view_label: "Acquisition"
+    type: string
+    sql: ${TABLE}.collected_traffic_source.manual_source ;;
+    full_suggestions: yes
+    group_label: "Collected Session Traffic Source"
+    group_item_label: "Source"
+  }
+
+  dimension: collected_traffic_source__campaign {
+    view_label: "Acquisition"
+    type: string
+    sql: ${TABLE}.collected_traffic_source.manual_campaign_name ;;
+    full_suggestions: yes
+    group_label: "Collected Session Traffic Source"
+    group_item_label: "Campaign"
+  }
+
+  dimension: collected_traffic_source__gclid {
+    view_label: "Acquisition"
+    type: string
+    sql: ${TABLE}.collected_traffic_source.gclid ;;
+    full_suggestions: yes
+    group_label: "Collected Session Traffic Source"
+    group_item_label: "GCLID"
+  }
 
   ## User Fields
   dimension: user_first_touch_timestamp {

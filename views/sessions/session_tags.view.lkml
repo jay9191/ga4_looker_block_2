@@ -14,8 +14,10 @@ view: session_tags{
     datagroup_trigger: ga4_main_datagroup
     #sql_trigger_value: ${session_list_with_event_history.SQL_TABLE_NAME} ;;
     sql:SELECT DISTINCT sl.sl_key, sl.session_date
-  , MAX(CASE WHEN key = 'medium' THEN value.string_value END) AS medium
-  , MAX(CASE WHEN key = 'source' THEN value.string_value END) AS source
+  , MAX(CASE WHEN key = 'campaign' AND value.string_value = 'Snack Nation' THEN 'referral'
+             WHEN key = 'medium' THEN value.string_value END) AS medium
+  , MAX(CASE WHEN key = 'campaign' AND value.string_value = 'Snack Nation' THEN 'snack_nation'
+             WHEN key = 'source' THEN value.string_value END) AS source
   , MAX(CASE WHEN key = 'campaign' THEN value.string_value END) AS campaign
   , MAX(CASE WHEN key = 'page_referrer' THEN value.string_value END) AS page_referrer
 FROM (
