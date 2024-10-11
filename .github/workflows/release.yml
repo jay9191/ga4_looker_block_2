@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - master
-
+# adding a comment to test the push
 # Cancels an release workflows in progress
 concurrency:
   group: ${{ github.workflow }}
