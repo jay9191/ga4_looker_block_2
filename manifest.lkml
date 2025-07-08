@@ -1,8 +1,8 @@
-project_name: "ga4_v2"
+project_name: "swag_ga4"
 
 ## Connection Constants:
 constant: GA4_CONNECTION {
-  value: "bigquery_ga4"
+  value: "swag-ga4"
   export: override_optional
 }
 

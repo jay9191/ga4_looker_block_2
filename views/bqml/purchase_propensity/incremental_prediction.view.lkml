@@ -56,7 +56,7 @@ view: pred_history {
 explore: incremental_prediction {hidden:yes}
 view: incremental_prediction {
   derived_table: {
-    #datagroup_trigger: bqml_datagroup
+    datagroup_trigger: bqml_datagroup
     #sql_trigger_value:CASE WHEN "@{BQML_PARAMETER}"='Yes' AND ${pred_history.SQL_TABLE_NAME} THEN TRUE ELSE FALSE END;;
     create_process: {
       sql_step:
