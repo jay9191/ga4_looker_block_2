@@ -4,7 +4,7 @@ include: "/dashboards/*.dashboard"
 include: "/explores/*.explore.lkml"
 include: "/views/**/*.view.lkml"
 
-label: "Google Analytics 4"
+label: "Swag GA4"
 
 
 datagroup: ga4_main_datagroup {

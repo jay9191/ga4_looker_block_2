@@ -3,7 +3,9 @@ include: "/views/*/*.view.lkml"
 include: "/views/bqml/*/*.view.lkml"
 include: "/views/*.view.lkml"
 
-explore: pred_history {}
+explore: pred_history {
+  hidden: yes
+}
 view: pred_history {
   derived_table: {
     #sql_trigger_value:CASE WHEN "@{BQML_PARAMETER}"='Yes' AND ${future_purchase_model.SQL_TABLE_NAME} THEN TRUE ELSE FALSE END;;

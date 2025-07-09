@@ -4,8 +4,8 @@ include: "/views/*/*/*.view.lkml"
 include: "/attributes/*.lkml"
 
 explore: sessions {
-  label: "GA4 Sessions Beta"
-  description: "Explores Google Analytics sessions data."
+  label: "GA4 Sessions"
+  description: "Explores Swag.com Google Analytics sessions data."
 
   join: audience_cohorts {
     type: left_outer
